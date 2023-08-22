@@ -6,16 +6,16 @@ import axios from "@utils/axios";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 export default function Home() {
-  const postsQuery = useQuery(["posts"], fetchPosts);
+  const { isError, isLoading, error, data } = useQuery(["posts"], fetchPosts);
 
-  if (postsQuery.isError) {
-    return <h2>Error: {String((postsQuery.error as Error).message)}</h2>;
+  if (isError) {
+    return <h2>Error: {String((error as Error).message)}</h2>;
   }
-  if (postsQuery.isLoading) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col gap-8">
-      {postsQuery.data.map((item, i) => (
+      {data.map((item, i) => (
         <div key={i} className="p-2 border border-black rounded">
           <h2 className="font-semibold text-xl">{item.title}</h2>
           <p className="font-light text-gray-600">{item.body}</p>
