@@ -3,6 +3,7 @@ import { TPost } from "@/utils/types";
 import wait from "@/utils/wait";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@utils/axios";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export default function Home() {
   const postsQuery = useQuery(["posts"], fetchPosts);
@@ -10,7 +11,7 @@ export default function Home() {
   if (postsQuery.isError) {
     return <h2>Error: {String((postsQuery.error as Error).message)}</h2>;
   }
-  if (postsQuery.isLoading) return <h2>Loading...</h2>;
+  if (postsQuery.isLoading) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col gap-8">
