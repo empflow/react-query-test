@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@utils/axios";
 
 export default function Home() {
-  const postsQuery = useQuery<TPost[]>(["posts"], fetchPosts);
+  const postsQuery = useQuery(["posts"], fetchPosts);
 
   if (postsQuery.isError) {
     return <h2>Error: {String((postsQuery.error as Error).message)}</h2>;
@@ -25,13 +25,6 @@ export default function Home() {
 }
 
 async function fetchPosts() {
-  await wait(1000);
   const resp = await axios.get<TPost[]>("/posts");
   return resp.data;
-}
-
-export async function createPost(title: string, body: string) {
-  await wait(1000);
-  const userId = Math.floor(Math.random() * 1000);
-  return axios.post("/posts", { title, body, userId });
 }
