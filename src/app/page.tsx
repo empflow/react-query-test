@@ -12,9 +12,10 @@ export default function Home() {
   const { isError, isLoading, error, data, isFetching } = useQuery(
     ["posts"],
     fetchPosts,
-    { cacheTime: 1000 }
+    { refetchOnMount: false }
   );
-
+  // cacheTime = time after which the data is removed from cache and user sees the loading spinner
+  // staleTime = time after which a request is made to check for new data
   console.log({ isLoading, isFetching });
 
   if (isError) {
