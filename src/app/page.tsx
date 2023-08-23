@@ -1,33 +1,36 @@
 "use client";
-import { TPost } from "@/utils/types";
+import { TQueryErrCodes, TPost } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@utils/axios";
 import LoadingSpinner from "./components/LoadingSpinner";
 import Link from "next/link";
 import styles from "./Home.module.css";
 import wait from "@/utils/wait";
+import { toast } from "react-toastify";
+import usePostsQuery from "./hooks/queries/usePostsQuery";
 
 export default function Home() {
-  const { fetchStatus, status, isError, error, data, refetch } = useQuery(
-    ["posts"],
-    fetchPosts,
-    { enabled: false }
-  );
-  console.log({ status, fetchStatus });
+  const { isLoading, unknownErr, data, refetch, isFetching } = usePostsQuery();
+  const sflkj = usePostsQuery();
 
-  if (isError) {
-    return <h2>Error: {String((error as Error).message)}</h2>;
+  if (unknownErr) {
+    return "Something went wrong";
   }
-  if (fetchStatus === "fetching") {
-    console.log("is loading data");
+  if (isFetching) {
     return <LoadingSpinner />;
   }
 
   return (
     <>
-      <div className="flex flex-col gap-8">
-        {data &&
-          data.map((item, i) => (
+      <button
+        className="px-3 rounded py-1 border border-blue-700 text-blue-700"
+        onClick={() => refetch()}
+      >
+        Fetch
+      </button>
+      {data && (
+        <div className="flex flex-col gap-8">
+          {data.map((item, i) => (
             <Link href={`/posts/${item.id}`} key={i}>
               <div className={`p-2 border border-black rounded ${styles.post}`}>
                 <h2 className="font-semibold text-xl">{item.title}</h2>
@@ -35,19 +38,8 @@ export default function Home() {
               </div>
             </Link>
           ))}
-      </div>
-      <button
-        className="px-3 rounded py-1 border border-blue-700 text-blue-700"
-        onClick={() => refetch()}
-      >
-        Fetch
-      </button>
+        </div>
+      )}
     </>
   );
-}
-
-async function fetchPosts() {
-  await wait(1000);
-  const resp = await axios.get<TPost[]>("/posts");
-  return resp.data;
 }
