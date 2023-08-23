@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const enum TQueryErrCodes {
   POSTS_FETCH_FAILED,
+  DO_NOT_SHOW_NOTIFICATION,
 }
 
 export type TAxiosErrWithResp<T = any> = Omit<AxiosError<T>, "response"> & {
