@@ -3,16 +3,11 @@ import { TQueryErrCodes, TPost, postSchema } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 
 export default function usePostsQuery() {
-  const [unknownErr, setUnknownErr] = useState(false);
-
   async function fetchPosts() {
-    await wait(1000);
     const resp = await axios.get<TPost[]>(
       "https://jsonplaceholder.typicode.com/posts"
     );
-    if (!postSchema.array().safeParse(resp.data).success) {
-      throw new Error();
-    }
+    if (!postSchema.array().safeParse(resp.data).success) throw new Error();
     return resp.data;
   }
 
@@ -28,11 +23,11 @@ export default function usePostsQuery() {
 
   const query = useQuery(["posts"], fetchPosts, {
     select: sortPosts,
-    meta: { errCode: TQueryErrCodes.POSTS_FETCH_FAILED },
+    meta: { errCode: TQueryErrCodes.DO_NOT_SHOW_NOTIFICATION },
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: false,
   });
 
-  return { ...query, unknownErr };
+  return query;
 }

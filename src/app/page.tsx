@@ -5,10 +5,9 @@ import styles from "./Home.module.css";
 import usePostsQuery from "./hooks/queries/usePostsQuery";
 
 export default function Home() {
-  const { isLoading, unknownErr, data, refetch, isFetching } = usePostsQuery();
-  const sflkj = usePostsQuery();
+  const { isError, data, refetch, isFetching } = usePostsQuery();
 
-  if (unknownErr) {
+  if (isError) {
     return "Something went wrong";
   }
   if (isFetching) {
