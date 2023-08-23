@@ -10,6 +10,7 @@
     "serve-json": "json-server ./src/db.json --port 4000"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^4.33.0",
     "@tanstack/react-query-devtools": "^4.33.0",
     "@types/node": "20.5.1",
