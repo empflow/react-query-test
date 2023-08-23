@@ -1,11 +1,6 @@
 import axios from "@/utils/axios";
-import isAxiosErrWithResp from "@/utils/isAxiosErrWithResp";
-import isObject from "@/utils/isObject";
 import { TQueryErrCodes, TPost, postSchema } from "@/utils/types";
-import wait from "@/utils/wait";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { toast } from "react-toastify";
 
 export default function usePostsQuery() {
   const [unknownErr, setUnknownErr] = useState(false);

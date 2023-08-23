@@ -1,12 +1,7 @@
 "use client";
-import { TQueryErrCodes, TPost } from "@/utils/types";
-import { useQuery } from "@tanstack/react-query";
-import axios from "@utils/axios";
 import LoadingSpinner from "./components/LoadingSpinner";
 import Link from "next/link";
 import styles from "./Home.module.css";
-import wait from "@/utils/wait";
-import { toast } from "react-toastify";
 import usePostsQuery from "./hooks/queries/usePostsQuery";
 
 export default function Home() {
