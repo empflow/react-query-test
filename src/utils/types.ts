@@ -19,3 +19,18 @@ export const postSchema = z.object({
 });
 
 export type TPost = z.infer<typeof postSchema>;
+
+export const userSchema = z.object({
+  name: z.string(),
+  channelId: z.number(),
+  id: z.number(),
+});
+
+export type TUser = z.infer<typeof userSchema>;
+
+export const channelSchema = z.object({
+  name: z.string(),
+  id: z.number(),
+});
+
+export type TChannel = z.infer<typeof channelSchema>;
