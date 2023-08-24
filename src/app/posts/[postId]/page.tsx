@@ -10,7 +10,7 @@ interface PostContext {
 
 export default function Post({ params: { postId } }: PostContext) {
   const router = useRouter();
-  const { data, isError, isLoading } = usePostQuery(+postId);
+  const { data, isError, isLoading } = usePostQuery(postId);
 
   if (isError) {
     return <h1>Something went wrong</h1>;
