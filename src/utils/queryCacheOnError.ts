@@ -8,6 +8,10 @@ export default function queryCacheOnError(err: unknown, query: Query) {
   switch (query.meta?.errCode) {
     case TQueryErrCodes.POSTS_FETCH_FAILED:
       return toast.error("Could not fetch posts");
+    case TQueryErrCodes.USER_FETCH_FAILED:
+      return toast.error("Could not fetch user");
+    case TQueryErrCodes.CHANNEL_FETCH_FAILED:
+      return toast.error("Could not fetch channel");
     default:
       return toast.error("Something went wrong");
   }
