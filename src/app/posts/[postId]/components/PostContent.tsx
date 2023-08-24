@@ -1,20 +1,16 @@
-import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { DefinedUseQueryResult } from "@tanstack/react-query";
 import PostContentSkeleton from "./PostContentSkeleton";
 
 interface PostContentProps {
-  postQuery: DefinedUseQueryResult<{
-    title: string;
-    body: string;
-    id: number;
-    userId: number;
-  }>;
+  postQuery: DefinedUseQueryResult<
+    { title: string; body: string; id: number; userId: number } | undefined
+  >;
 }
 
 export default function PostContent({ postQuery }: PostContentProps) {
-  const { data, isFetching } = postQuery;
+  const { data, isFetching, isError } = postQuery;
 
-  if (isFetching) {
+  if (isFetching || !data) {
     return <PostContentSkeleton />;
   }
 

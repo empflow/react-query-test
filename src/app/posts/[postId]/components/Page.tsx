@@ -12,8 +12,8 @@ interface PostContentProps {
 }
 
 export default function PostPage({ post, postId }: PostContentProps) {
-  if (!post) return notFound();
   const postQuery = usePostQuery(postId, post);
+  if (!post) return notFound();
 
   if (postQuery.isError) {
     return <h1>Something went wrong</h1>;
