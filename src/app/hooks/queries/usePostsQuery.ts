@@ -23,7 +23,7 @@ export default function usePostsQuery() {
 
   const query = useQuery(["posts"], fetchPosts, {
     select: sortPosts,
-    meta: { errCode: TQueryErrCodes.DO_NOT_SHOW_NOTIFICATION },
+    meta: { doNotShowNotification: true },
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: false,
