@@ -1,28 +1,25 @@
-"use client";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
-import usePostQuery from "@/app/hooks/queries/usePostQuery";
-import { useRouter } from "next/navigation";
-import BackBtn from "./components/BackBtn";
+import axios from "@/utils/axios";
+import { TPost, postSchema } from "@/utils/types";
+import PostPage from "./components/Page";
+import { cache } from "react";
+import { notFound } from "next/navigation";
+import isAxiosErrWithResp from "@/utils/isAxiosErrWithResp";
 
 interface PostContext {
   params: { postId: string };
 }
 
-export default function Post({ params: { postId } }: PostContext) {
-  const router = useRouter();
-  const { data, isError, isLoading } = usePostQuery(postId);
+export default async function Post({ params: { postId } }: PostContext) {
+  const fetchPost = cache(async () => {
+    try {
+      const { data } = await axios.get<TPost>(`/posts/${postId}`);
+      postSchema.parse(data);
+      return data;
+    } catch (err) {
+      return null;
+    }
+  });
 
-  if (isError) {
-    return <h1>Something went wrong</h1>;
-  }
-  if (isLoading) return <LoadingSpinner />;
-
-  return (
-    <div>
-      <BackBtn />
-      <p className="font-light">Written by user {data.userId}</p>
-      <h1 className="font-semibold mb-4 text-3xl">{data.title}</h1>
-      <p>{data.body}</p>
-    </div>
-  );
+  const post = await fetchPost();
+  return <PostPage {...{ post, postId }} />;
 }
