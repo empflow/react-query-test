@@ -3,8 +3,20 @@ import { TPost, postSchema } from "@/utils/types";
 import PostPage from "./components/Page";
 import { cache } from "react";
 
+interface TParams {
+  postId: string;
+}
+
 interface PostContext {
-  params: { postId: string };
+  params: TParams;
+}
+
+export async function generateStaticParams(): Promise<TParams[]> {
+  const { data: posts } = await axios.get<TPost[]>("/posts");
+  postSchema.array().parse(posts);
+  return posts.map((post) => ({
+    postId: post.id.toString(),
+  }));
 }
 
 export default async function Post({ params: { postId } }: PostContext) {
