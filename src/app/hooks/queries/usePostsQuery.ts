@@ -4,9 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function usePostsQuery() {
   async function fetchPosts() {
-    const { data } = await axios.get<TPost[]>(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
+    const { data } = await axios.get<TPost[]>("http://localhost:4000/posts");
     postSchema.array().parse(data);
     return data;
   }
