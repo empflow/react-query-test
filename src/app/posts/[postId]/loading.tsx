@@ -8,7 +8,7 @@ export default function Loading() {
       <p className="h-[40px] bg-gray-200 rounded"></p>
 
       {fillArr(10).map((line, i) => (
-        <p className="h-[0.95rem] bg-gray-200 rounded"></p>
+        <p key={i} className="h-[0.95rem] bg-gray-200 rounded"></p>
       ))}
     </div>
   );

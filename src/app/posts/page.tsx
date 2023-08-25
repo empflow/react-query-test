@@ -12,7 +12,7 @@ export default async function Posts() {
       <h1>Posts</h1>
       <div className="flex flex-col gap-3">
         {posts.map((post) => (
-          <Link href={`/posts/${post.id}`}>
+          <Link key={post.id} href={`/posts/${post.id}`}>
             <div
               className={`${styles.post} border border-gray-300 p-2 rounded`}
             >
