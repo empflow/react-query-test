@@ -1,0 +1,10 @@
+.loadingContainer p,
+.loadingContainer h1,
+.loadingContainer h2,
+.loadingContainer h3,
+.loadingContainer h4,
+.loadingContainer h5,
+.loadingContainer h6,
+.loadingContainer span {
+  background-color: rgb(220, 220, 220);
+}
