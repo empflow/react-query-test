@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="p-2">
+      <body className="max-w-3xl m-auto border-x border-gray-200 min-h-[100dvh] p-6">
         <ReactQueryProviders>{children}</ReactQueryProviders>
         <ToastContainer />
       </body>
