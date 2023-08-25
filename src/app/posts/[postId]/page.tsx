@@ -2,8 +2,6 @@ import axios from "@/utils/axios";
 import { TPost, postSchema } from "@/utils/types";
 import PostPage from "./components/Page";
 import { cache } from "react";
-import { notFound } from "next/navigation";
-import isAxiosErrWithResp from "@/utils/isAxiosErrWithResp";
 
 interface PostContext {
   params: { postId: string };

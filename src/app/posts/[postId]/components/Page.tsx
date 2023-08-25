@@ -2,7 +2,6 @@
 import usePostQuery from "@/app/hooks/queries/usePostQuery";
 import { TPost } from "@/utils/types";
 import BackBtn from "./BackBtn";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { notFound } from "next/navigation";
 import PostContent from "./PostContent";
 
