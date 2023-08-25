@@ -1,39 +1,17 @@
-"use client";
-import LoadingSpinner from "./components/LoadingSpinner";
 import Link from "next/link";
-import styles from "./Home.module.css";
-import usePostsQuery from "./hooks/queries/usePostsQuery";
 
 export default function Home() {
-  const { isError, data, refetch, isFetching } = usePostsQuery();
-
-  if (isError) {
-    return "Something went wrong";
-  }
-  if (isFetching) {
-    return <LoadingSpinner />;
-  }
-
   return (
-    <>
-      <button
-        className="px-3 rounded py-1 border border-blue-700 text-blue-700"
-        onClick={() => refetch()}
-      >
-        Fetch
-      </button>
-      {data && (
-        <div className="flex flex-col gap-8">
-          {data.map((item, i) => (
-            <Link href={`/posts/${item.id}`} key={i}>
-              <div className={`p-2 border border-black rounded ${styles.post}`}>
-                <h2 className="font-semibold text-xl">{item.title}</h2>
-                <p className="font-light text-gray-600">{item.body}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </>
+    <main>
+      <h1 className="text-2xl font-bold mb-4">Home page</h1>
+      <div className="flex flex-col">
+        <Link href="/posts" className="hover:underline">
+          Posts
+        </Link>
+        <Link href="/users" className="hover:underline">
+          Users
+        </Link>
+      </div>
+    </main>
   );
 }
