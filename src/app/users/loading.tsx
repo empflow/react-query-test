@@ -20,6 +20,7 @@ export default function Loading() {
           <div
             className={`border border-gray-300 rounded p-2 ${styles.loadingContainer} flex flex-col gap-2`}
             style={{ height: 102 }}
+            key={i}
           >
             <h2 className="text-xl rounded font-semibold text-transparent w-[180px]">
               text
