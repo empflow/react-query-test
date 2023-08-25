@@ -5,6 +5,7 @@ import usePostsQuery from "@/app/hooks/queries/usePostsQuery";
 import PostsError from "./components/Error";
 import Link from "next/link";
 import styles from "@/app/posts/posts.module.css";
+import NewPostForm from "./components/NewPostForm/NewPostForm";
 
 export default function Posts() {
   const { data, isLoading, isError, refetch } = usePostsQuery();
@@ -13,8 +14,10 @@ export default function Posts() {
   if (isError) return <PostsError {...{ refetch }} />;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-6">
       <h1 className="font-semibold text-2xl">Posts</h1>
+
+      <NewPostForm />
 
       <div className="flex flex-col gap-2">
         {data.map((post) => (
