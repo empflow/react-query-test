@@ -15,7 +15,7 @@ export const postSchema = z.object({
   title: z.string(),
   body: z.string(),
   id: z.number(),
-  userId: z.number(),
+  userId: z.number().optional(),
 });
 
 export type TPost = z.infer<typeof postSchema>;
