@@ -36,7 +36,6 @@ export default function NewPostForm() {
       reset();
     } catch (err) {
       if (!isAxiosErrWithResp(err)) return setUnknownServerErr();
-      console.log("caught");
 
       switch (err.response.data.errCode) {
         case "INVALID_CREDENTIALS":
