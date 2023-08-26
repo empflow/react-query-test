@@ -20,8 +20,9 @@ export async function POST(req: NextRequest) {
 
   await wait(1000);
   try {
-    await axios.post("http://localhost:4000/posts", { title, body });
-    return NextResponse.json({ ok: true });
+    const payload = { title, body };
+    const { data } = await axios.post("http://localhost:4000/posts", payload);
+    return NextResponse.json(data);
   } catch (err) {
     return NextResponse.json({ ok: false }, { status: 500 });
   }
