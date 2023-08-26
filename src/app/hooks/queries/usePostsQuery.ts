@@ -1,5 +1,5 @@
 import axios from "@/utils/axios";
-import { TQueryErrCodes, TPost, postSchema } from "@/utils/types";
+import { TPost, postSchema } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 
 export default function usePostsQuery() {
@@ -11,10 +11,10 @@ export default function usePostsQuery() {
 
   function sortPosts(posts: TPost[]) {
     return posts.sort((a, b) => {
-      const titleA = a.title.toLowerCase();
-      const titleB = b.title.toLowerCase();
-      if (titleA > titleB) return 1;
-      else if (titleA < titleB) return -1;
+      const { id: idA } = a;
+      const { id: idB } = b;
+      if (idA < idB) return 1;
+      else if (idA > idB) return -1;
       return 0;
     });
   }
