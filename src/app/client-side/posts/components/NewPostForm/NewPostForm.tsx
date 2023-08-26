@@ -1,96 +1,86 @@
-import { FieldErrors, FieldValues, useForm } from "react-hook-form";
-import Label from "./Label";
+import { useForm } from "react-hook-form";
 import Input from "./Input";
+import Textarea from "./Textarea";
+import isAxiosErrWithResp from "@/utils/isAxiosErrWithResp";
 import FieldErr from "./FieldErr";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import useAddPostMutation from "@/app/hooks/queries/useAddPostMutation";
+import { error } from "console";
 
-interface TForm {
+interface TFormInputs {
   title: string;
   body: string;
-  email: string;
-  confirmEmail: string;
 }
 
 export default function NewPostForm() {
   const {
     register,
-    handleSubmit,
     formState: { errors: errs },
     reset,
-    getValues,
-  } = useForm<TForm>({ mode: "onBlur" });
+    handleSubmit,
+    setError,
+  } = useForm<TFormInputs>();
+  const { isLoading: isAddingPost, mutateAsync: addPost } =
+    useAddPostMutation();
 
-  function checkEmailsMatch(confirmationEmail: string) {
-    if (getValues("email") !== confirmationEmail) {
-      return "Emails must match";
+  function setUnknownServerErr() {
+    setError("root.serverErr", {
+      type: "unknown",
+      message: "An unknown error has occured. Try again later",
+    });
+  }
+
+  async function onFormSubmit(data: TFormInputs) {
+    try {
+      await addPost(data);
+      reset();
+    } catch (err) {
+      if (!isAxiosErrWithResp(err)) return setUnknownServerErr();
+      console.log("caught");
+
+      switch (err.response.data.errCode) {
+        case "INVALID_CREDENTIALS":
+          return setError("root.serverErr", {
+            type: "invalidCredentials",
+            message: "Invalid email or password",
+          });
+        default:
+          return setUnknownServerErr();
+      }
     }
   }
 
-  function onFormSubmit(data: FieldValues) {
-    console.info(data);
-  }
-
-  function onFormErr(errs: FieldErrors<TForm>) {}
-
-  console.log(errs);
-
   return (
-    <div>
-      <h2>Add new post</h2>
+    <div className="flex flex-col gap-4 max-w-sm">
+      <h2 className="font-semibold text-2xl">Add new post</h2>
 
       <form
-        className="max-w-sm flex flex-col gap-1"
-        onSubmit={handleSubmit(onFormSubmit, onFormErr)}
+        onSubmit={handleSubmit(onFormSubmit)}
+        className="flex flex-col gap-3"
       >
-        <Label>
-          Title
+        <div className="flex flex-col gap-2">
           <Input
+            label="Title"
+            register={register("title", { required: "Post title is required" })}
             type="text"
-            register={register("title", { required: "Title is required" })}
+            errMsg={errs.title?.message}
           />
-          {errs.title && <FieldErr content={errs.title.message} />}
-        </Label>
-
-        <Label>
-          Body
-          <Input
-            type="text"
-            register={register("body", { required: "Post body is requried" })}
+          <Textarea
+            label="Body"
+            rows={8}
+            register={register("body", { required: "Post body is required" })}
+            errMsg={errs.body?.message}
           />
-          {errs.body && <FieldErr content={errs.body.message} />}
-        </Label>
-
-        <Label>
-          Email
-          <Input
-            type=""
-            register={register("email", {
-              required: "Email is required",
-              pattern: /.+@.+\..+/,
-            })}
-          />
-          {errs.email && <FieldErr content={errs.email.message} />}
-        </Label>
-
-        <Label>
-          Confirm email haha
-          <Input
-            type=""
-            register={register("confirmEmail", {
-              required: "Email confirmation is required",
-              validate: checkEmailsMatch,
-            })}
-          />
-          {errs.confirmEmail && (
-            <FieldErr content={errs.confirmEmail.message} />
-          )}
-        </Label>
+        </div>
 
         <button
-          className="border border-blue-600 hover:text-white hover:bg-blue-600 duration-200 rounded p-2"
+          className="px-3 py-1 flex justify-center border rounded border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-200"
           type="submit"
         >
-          Add post
+          {isAddingPost ? <LoadingSpinner pxSize={24} /> : "Send"}
         </button>
+
+        <FieldErr content={errs.root?.serverErr.message} />
       </form>
     </div>
   );
