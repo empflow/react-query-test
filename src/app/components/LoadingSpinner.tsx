@@ -12,6 +12,7 @@ export default function LoadingSpinner(props: Props) {
     <div
       className={`relative flex justify-center items-center`}
       style={{ ...parentStyle, width: pxSize, height: pxSize }}
+      title="Loading..."
     >
       <div
         style={childStyle}
