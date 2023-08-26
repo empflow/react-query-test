@@ -6,7 +6,7 @@ interface Props {
   pxSize?: number;
 }
 export default function LoadingSpinner(props: Props) {
-  const { pxSize = 25, childStyle, parentStyle } = props;
+  const { pxSize = 24, childStyle, parentStyle } = props;
 
   return (
     <div
